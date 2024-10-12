@@ -10,7 +10,7 @@ import SwiftUI
 struct HeaderView: View {
     var body: some View {
         HStack {
-            Text("My App")
+            Text("MyKen")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             Spacer()
@@ -150,6 +150,164 @@ struct PostView: View {
     }
 }
 
+struct User: Identifiable {
+    let id = UUID()
+    let username: String
+    let fullName: String
+    let profileImageName: String
+}
+
+struct UserRowView: View {
+    let user: User
+    
+    var body: some View {
+        Button(action: {
+            // Handle user selection
+            print("Selected user: \(user.username)")
+        }) {
+            HStack {
+                Image(user.profileImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                
+                VStack(alignment: .leading) {
+                    Text(user.username)
+                        .font(.headline)
+                    Text(user.fullName)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+            }
+            .padding(.vertical, 8)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+struct UploadedImageView: View {
+    let image: UIImage
+    
+    var body: some View {
+        VStack {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+                .padding()
+            
+            Text("Uploaded Image")
+                .font(.title)
+                .padding()
+            
+            // Add more details or actions here as needed
+        }
+        .navigationTitle("Uploaded Image")
+    }
+}
+
+struct EditView: View {
+    let users = [
+        User(username: "john_doe", fullName: "John Doe", profileImageName: "profile1"),
+        User(username: "jane_smith", fullName: "Jane Smith", profileImageName: "profile2"),
+        User(username: "bob_johnson", fullName: "Bob Johnson", profileImageName: "profile3"),
+        // Add more users as needed
+    ]
+    
+    @State private var selectedImage: UIImage?
+    @State private var showingImagePicker = false
+    @State private var showingUploadedImage = false
+    
+    var body: some View {
+        VStack {
+            // User list in the top half
+            ScrollView {
+                LazyVStack {
+                    ForEach(users) { user in
+                        UserRowView(user: user)
+                        Divider()
+                    }
+                }
+            }
+            .frame(height: UIScreen.main.bounds.height * 0.4)
+            
+            Spacer()
+            
+            // Image upload button in the bottom half
+            Button(action: {
+                showingImagePicker = true
+            }) {
+                Text("Upload Image from Gallery")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .padding()
+            
+            if let selectedImage = selectedImage {
+                Image(uiImage: selectedImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 200)
+                
+                NavigationLink(destination: UploadedImageView(image: selectedImage), isActive: $showingUploadedImage) {
+                    Button(action: {
+                        showingUploadedImage = true
+                    }) {
+                        Text("Next")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                }
+            }
+        }
+        .navigationTitle("Edit")
+        .sheet(isPresented: $showingImagePicker) {
+            ImagePicker(image: $selectedImage)
+        }
+    }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    @Environment(\.presentationMode) private var presentationMode
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.image = image
+            }
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+    }
+}
+
 struct ContentView: View {
     let posts = [
         Post(imageName: "men1", description: "Cool summer look", likes: 100, comments: 25, brandName: "Summer Breeze", price: 79.99, buyLink: "https://example.com/buy1"),
@@ -178,18 +336,16 @@ struct ContentView: View {
                 Text("Home")
             }
             
-            // First tab: Square pencil icon
-            VStack(spacing: 0) {
-                HeaderView()
-                Text("Edit View")
-                    .frame(maxHeight: .infinity)
+            // Edit tab
+            NavigationView {
+                EditView()
             }
             .tabItem {
                 Image(systemName: "square.and.pencil")
                 Text("Edit")
             }
             
-            // Third tab: Gear settings icon
+            // Settings tab
             VStack(spacing: 0) {
                 HeaderView()
                 Text("Settings View")
