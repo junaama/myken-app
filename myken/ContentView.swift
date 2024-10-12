@@ -159,52 +159,170 @@ struct User: Identifiable {
 
 struct UserRowView: View {
     let user: User
+    let isSelected: Bool
     
     var body: some View {
-        Button(action: {
-            // Handle user selection
-            print("Selected user: \(user.username)")
-        }) {
-            HStack {
-                Image(user.profileImageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                
-                VStack(alignment: .leading) {
-                    Text(user.username)
-                        .font(.headline)
-                    Text(user.fullName)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
+        HStack {
+            Image(user.profileImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+                .clipShape(Circle())
+            
+            VStack(alignment: .leading) {
+                Text(user.username)
+                    .font(.headline)
+                Text(user.fullName)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
             }
-            .padding(.vertical, 8)
+            
+            Spacer()
         }
-        .buttonStyle(PlainButtonStyle())
+        .padding(.vertical, 8)
+        .padding(.horizontal)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isSelected ? Color.black : Color.clear, lineWidth: 2)
+        )
+    }
+}
+
+struct ApparelItem: Identifiable {
+    let id = UUID()
+    let name: String
+    let category: String
+    let imageName: String
+}
+
+struct ApparelSelectionView: View {
+    let image: UIImage
+    let selectedUsername: String
+    @State private var searchText = ""
+    @State private var selectedApparel: ApparelItem?
+    
+    let apparelItems = [
+        ApparelItem(name: "T-Shirt", category: "Tops", imageName: "tshirt"),
+        ApparelItem(name: "Jeans", category: "Bottoms", imageName: "jeans"),
+        ApparelItem(name: "Sweater", category: "Tops", imageName: "sweater"),
+        ApparelItem(name: "Skirt", category: "Bottoms", imageName: "skirt"),
+        ApparelItem(name: "Dress", category: "Tops", imageName: "dress"),
+        // Add more apparel items as needed
+    ]
+    
+    var filteredItems: [ApparelItem] {
+        if searchText.isEmpty {
+            return apparelItems
+        } else {
+            return apparelItems.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            TextField("Search apparel", text: $searchText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            List(filteredItems) { item in
+                HStack {
+                    Image(item.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                    
+                    VStack(alignment: .leading) {
+                        Text(item.name)
+                        Text(item.category)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    if selectedApparel?.id == item.id {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.blue)
+                    }
+                }
+                .onTapGesture {
+                    selectedApparel = item
+                }
+            }
+            
+            NavigationLink(
+                destination: UploadedImageView(image: image, selectedUsername: selectedUsername, apparelItem: selectedApparel),
+                isActive: .constant(selectedApparel != nil)
+            ) {
+                EmptyView()
+            }
+        }
+        .navigationTitle("Select Apparel")
     }
 }
 
 struct UploadedImageView: View {
     let image: UIImage
+    let selectedUsername: String
+    let apparelItem: ApparelItem?
+    
+    @State private var description: String = ""
+    @State private var isPrivate: Bool = false
+    @State private var showingShareConfirmation = false
     
     var body: some View {
-        VStack {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFit()
+        ScrollView {
+            VStack(spacing: 20) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .padding()
+                
+                Text("Uploaded by: \(selectedUsername)")
+                    .font(.title2)
+                
+                if let apparelItem = apparelItem {
+                    Text("Selected Apparel: \(apparelItem.name) (\(apparelItem.category))")
+                        .font(.headline)
+                }
+                
+                TextField("Add a description...", text: $description)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                
+                Toggle("Make post private", isOn: $isPrivate)
+                    .padding(.horizontal)
+                
+                Spacer()
+                
+                Button(action: {
+                    showingShareConfirmation = true
+                }) {
+                    Text("Share")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
                 .padding()
-            
-            Text("Uploaded Image")
-                .font(.title)
-                .padding()
-            
-            // Add more details or actions here as needed
+            }
         }
         .navigationTitle("Uploaded Image")
+        .alert(isPresented: $showingShareConfirmation) {
+            Alert(
+                title: Text("Confirm Share"),
+                message: Text("Are you sure you want to share this post?"),
+                primaryButton: .default(Text("Yes")) {
+                    // Add sharing logic here
+                    print("Sharing post...")
+                    print("Description: \(description)")
+                    print("Is Private: \(isPrivate)")
+                    print("Apparel: \(apparelItem?.name ?? "None")")
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
 }
 
@@ -219,17 +337,21 @@ struct EditView: View {
     @State private var selectedImage: UIImage?
     @State private var showingImagePicker = false
     @State private var showingUploadedImage = false
+    @State private var selectedUser: User?
     
     var body: some View {
         VStack {
             // User list in the top half
             ScrollView {
-                LazyVStack {
+                LazyVStack(spacing: 10) {
                     ForEach(users) { user in
-                        UserRowView(user: user)
-                        Divider()
+                        UserRowView(user: user, isSelected: user.id == selectedUser?.id)
+                            .onTapGesture {
+                                selectedUser = user
+                            }
                     }
                 }
+                .padding(.vertical)
             }
             .frame(height: UIScreen.main.bounds.height * 0.4)
             
@@ -254,7 +376,10 @@ struct EditView: View {
                     .scaledToFit()
                     .frame(height: 200)
                 
-                NavigationLink(destination: UploadedImageView(image: selectedImage), isActive: $showingUploadedImage) {
+                NavigationLink(
+                    destination: ApparelSelectionView(image: selectedImage, selectedUsername: selectedUser?.username ?? "Unknown"),
+                    isActive: $showingUploadedImage
+                ) {
                     Button(action: {
                         showingUploadedImage = true
                     }) {
@@ -266,6 +391,7 @@ struct EditView: View {
                             .cornerRadius(10)
                     }
                     .padding()
+                    .disabled(selectedUser == nil)
                 }
             }
         }
