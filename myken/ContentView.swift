@@ -28,6 +28,48 @@ struct Post: Identifiable {
     let description: String
     let likes: Int
     let comments: Int
+    let brandName: String
+    let price: Double
+    let buyLink: String
+}
+
+struct ShoppingDetailView: View {
+    let post: Post
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Image(post.imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 300)
+                
+                Text(post.brandName)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                
+                Text("$\(post.price, specifier: "%.2f")")
+                    .font(.title3)
+                    .foregroundColor(.green)
+                
+                Button(action: {
+                    // Open external link
+                    if let url = URL(string: post.buyLink) {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Buy Now")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+            .padding()
+        }
+        .navigationTitle("Shop This Look")
+    }
 }
 
 struct PostDetailView: View {
@@ -68,6 +110,7 @@ struct PostDetailView: View {
 struct PostView: View {
     let post: Post
     @State private var showingPostDetail = false
+    @State private var showingShoppingDetail = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -85,7 +128,13 @@ struct PostView: View {
                 Text(post.description)
                 Spacer()
                 HStack {
-                    Image(systemName: "bag")
+                    NavigationLink(destination: ShoppingDetailView(post: post), isActive: $showingShoppingDetail) {
+                        Image(systemName: "bag")
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        showingShoppingDetail = true
+                    })
+                    
                     NavigationLink(destination: PostDetailView(post: post), isActive: $showingPostDetail) {
                         Image(systemName: "bubble.left")
                     }
@@ -103,9 +152,9 @@ struct PostView: View {
 
 struct ContentView: View {
     let posts = [
-        Post(imageName: "men1", description: "Description for image 1", likes: 100, comments: 25),
-        Post(imageName: "men2", description: "Description for image 2", likes: 85, comments: 12),
-        Post(imageName: "men3", description: "Description for image 3", likes: 120, comments: 30),
+        Post(imageName: "men1", description: "Cool summer look", likes: 100, comments: 25, brandName: "Summer Breeze", price: 79.99, buyLink: "https://example.com/buy1"),
+        Post(imageName: "men2", description: "Casual office wear", likes: 85, comments: 12, brandName: "Office Chic", price: 129.99, buyLink: "https://example.com/buy2"),
+        Post(imageName: "men3", description: "Weekend getaway outfit", likes: 120, comments: 30, brandName: "Wanderlust", price: 99.99, buyLink: "https://example.com/buy3"),
         // Add more posts as needed
     ]
     
