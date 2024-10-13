@@ -7,12 +7,35 @@
 
 import SwiftUI
 
-struct UserRowView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+import SwiftUI
 
-#Preview {
-    UserRowView()
+struct UserRowView: View {
+    let user: User
+    let isSelected: Bool
+    
+    var body: some View {
+        HStack {
+            Image(user.profileImageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+                .clipShape(Circle())
+            
+            VStack(alignment: .leading) {
+                Text(user.username)
+                    .font(.headline)
+                Text(user.fullName)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isSelected ? Color.black : Color.clear, lineWidth: 2)
+        )
+    }
 }

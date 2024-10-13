@@ -14,6 +14,18 @@
 		FA21FE9F2CBB1FEB00930C11 /* mykenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FE9E2CBB1FEB00930C11 /* mykenTests.swift */; };
 		FA21FEA92CBB1FEB00930C11 /* mykenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEA82CBB1FEB00930C11 /* mykenUITests.swift */; };
 		FA21FEAB2CBB1FEB00930C11 /* mykenUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEAA2CBB1FEB00930C11 /* mykenUITestsLaunchTests.swift */; };
+		FA21FEB82CBB38B800930C11 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEB72CBB38B800930C11 /* Models.swift */; };
+		FA21FEBA2CBB38D100930C11 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEB92CBB38D100930C11 /* HomeView.swift */; };
+		FA21FEBC2CBB38E600930C11 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEBB2CBB38E600930C11 /* PostView.swift */; };
+		FA21FEBE2CBB38F500930C11 /* UploadedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEBD2CBB38F500930C11 /* UploadedImageView.swift */; };
+		FA21FEC02CBB390100930C11 /* ApparelSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEBF2CBB390100930C11 /* ApparelSelectionView.swift */; };
+		FA21FEC22CBB390C00930C11 /* UserRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEC12CBB390C00930C11 /* UserRowView.swift */; };
+		FA21FEC42CBB391600930C11 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEC32CBB391600930C11 /* EditView.swift */; };
+		FA21FEC62CBB392300930C11 /* ShoppingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEC52CBB392300930C11 /* ShoppingDetailView.swift */; };
+		FA21FEC82CBB393300930C11 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEC72CBB393300930C11 /* PostDetailView.swift */; };
+		FA21FECA2CBB397500930C11 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FEC92CBB397500930C11 /* ImagePicker.swift */; };
+		FA21FECC2CBB39A900930C11 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FECB2CBB39A900930C11 /* SettingsView.swift */; };
+		FA21FECE2CBB39B000930C11 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21FECD2CBB39B000930C11 /* HeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +56,18 @@
 		FA21FEA42CBB1FEB00930C11 /* mykenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mykenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA21FEA82CBB1FEB00930C11 /* mykenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mykenUITests.swift; sourceTree = "<group>"; };
 		FA21FEAA2CBB1FEB00930C11 /* mykenUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mykenUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FA21FEB72CBB38B800930C11 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		FA21FEB92CBB38D100930C11 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		FA21FEBB2CBB38E600930C11 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		FA21FEBD2CBB38F500930C11 /* UploadedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadedImageView.swift; sourceTree = "<group>"; };
+		FA21FEBF2CBB390100930C11 /* ApparelSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApparelSelectionView.swift; sourceTree = "<group>"; };
+		FA21FEC12CBB390C00930C11 /* UserRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRowView.swift; sourceTree = "<group>"; };
+		FA21FEC32CBB391600930C11 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		FA21FEC52CBB392300930C11 /* ShoppingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingDetailView.swift; sourceTree = "<group>"; };
+		FA21FEC72CBB393300930C11 /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		FA21FEC92CBB397500930C11 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		FA21FECB2CBB39A900930C11 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		FA21FECD2CBB39B000930C11 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +122,18 @@
 				FA21FE8F2CBB1FEA00930C11 /* ContentView.swift */,
 				FA21FE912CBB1FEB00930C11 /* Assets.xcassets */,
 				FA21FE932CBB1FEB00930C11 /* Preview Content */,
+				FA21FEB72CBB38B800930C11 /* Models.swift */,
+				FA21FEB92CBB38D100930C11 /* HomeView.swift */,
+				FA21FEBB2CBB38E600930C11 /* PostView.swift */,
+				FA21FEBD2CBB38F500930C11 /* UploadedImageView.swift */,
+				FA21FEBF2CBB390100930C11 /* ApparelSelectionView.swift */,
+				FA21FEC12CBB390C00930C11 /* UserRowView.swift */,
+				FA21FEC32CBB391600930C11 /* EditView.swift */,
+				FA21FEC52CBB392300930C11 /* ShoppingDetailView.swift */,
+				FA21FEC72CBB393300930C11 /* PostDetailView.swift */,
+				FA21FEC92CBB397500930C11 /* ImagePicker.swift */,
+				FA21FECB2CBB39A900930C11 /* SettingsView.swift */,
+				FA21FECD2CBB39B000930C11 /* HeaderView.swift */,
 			);
 			path = myken;
 			sourceTree = "<group>";
@@ -257,8 +293,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA21FEC82CBB393300930C11 /* PostDetailView.swift in Sources */,
+				FA21FEB82CBB38B800930C11 /* Models.swift in Sources */,
+				FA21FEBA2CBB38D100930C11 /* HomeView.swift in Sources */,
 				FA21FE902CBB1FEA00930C11 /* ContentView.swift in Sources */,
+				FA21FEC02CBB390100930C11 /* ApparelSelectionView.swift in Sources */,
+				FA21FEBC2CBB38E600930C11 /* PostView.swift in Sources */,
+				FA21FEC62CBB392300930C11 /* ShoppingDetailView.swift in Sources */,
+				FA21FEC42CBB391600930C11 /* EditView.swift in Sources */,
+				FA21FEBE2CBB38F500930C11 /* UploadedImageView.swift in Sources */,
+				FA21FECA2CBB397500930C11 /* ImagePicker.swift in Sources */,
+				FA21FEC22CBB390C00930C11 /* UserRowView.swift in Sources */,
 				FA21FE8E2CBB1FEA00930C11 /* mykenApp.swift in Sources */,
+				FA21FECC2CBB39A900930C11 /* SettingsView.swift in Sources */,
+				FA21FECE2CBB39B000930C11 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

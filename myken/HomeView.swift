@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
+    let posts: [Post]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            LazyVStack(spacing: 20) {
+                ForEach(posts) { post in
+                    PostView(post: post)
+                }
+            }
+        }
+        .navigationTitle("MYKEN")
     }
-}
-
-#Preview {
-    HomeView()
 }

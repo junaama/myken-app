@@ -8,11 +8,44 @@
 import SwiftUI
 
 struct PostView: View {
+    let post: Post
+    @State private var showingPostDetail = false
+    @State private var showingShoppingDetail = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 10) {
+            GeometryReader { geometry in
+                Image(post.imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width * 0.75, height: geometry.size.width * 0.75)
+                    .clipShape(Rectangle())
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .aspectRatio(1, contentMode: .fit)
+            
+            HStack {
+                Text(post.description)
+                Spacer()
+                HStack {
+                    NavigationLink(destination: ShoppingDetailView(post: post), isActive: $showingShoppingDetail) {
+                        Image(systemName: "bag")
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        showingShoppingDetail = true
+                    })
+                    
+                    NavigationLink(destination: PostDetailView(post: post), isActive: $showingPostDetail) {
+                        Image(systemName: "bubble.left")
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        showingPostDetail = true
+                    })
+                }
+            }
+            .padding(.horizontal)
+            
+            Divider()
+        }
     }
-}
-
-#Preview {
-    PostView()
 }

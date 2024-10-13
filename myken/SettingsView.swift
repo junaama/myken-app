@@ -9,10 +9,13 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            HeaderView()
+            Text("Settings View")
+                .frame(maxHeight: .infinity)
+        }
     }
 }
-
 #Preview {
     SettingsView()
 }
